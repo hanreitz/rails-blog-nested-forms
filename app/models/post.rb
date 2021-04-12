@@ -6,6 +6,11 @@ class Post < ActiveRecord::Base
 
   validates_presence_of :name, :content
 
-  accepts_nested_attributes_for :tags, :reject_if => lambda { |c| c[:name].blank? }
+  accepts_nested_attributes_for :tags, reject_if: :tag_name_blank
 
+  private
+
+  def tag_name_blank(tags_attributes)
+    tags_attributes[:name].blank?
+  end
 end
